@@ -1,0 +1,16 @@
+name: publish apis docker images
+on:
+  workflow_dispatch:
+
+jobs:
+  Stage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v2
+        # - name: test code        
+        # run: dotnet test
+      - name: build images on pre-stage
+        run: dotnet publish --os linux --arch x64 --configuration Release -p:PublishProfile=DefaultContainer /p:EnvironmentName=Production
+      # - name: Docker Login
