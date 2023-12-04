@@ -1,0 +1,33 @@
+name: publish apis docker images
+on:
+  workflow_dispatch:
+
+jobs:
+  Stage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v2
+        # - name: test code        
+        # run: dotnet test
+      - name: build images on pre-stage
+        run: dotnet publish --os linux --arch x64 --configuration Release -p:PublishProfile=DefaultContainer /p:EnvironmentName=Production
+      # - name: Docker Login
+      #   uses: actions-hub/docker/login@master
+      #   env:
+      #     DOCKER_REGISTRY_URL: docker.io
+      #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      # # Identity Api
+      # # 1. Use the tag command to rename the local container to match our  docker hub Container Registry URL
+      # - name: Tag built container with  docker hub Container Registry url for Identity
+      #   uses: actions-hub/docker/cli@master
+      #   with:
+      #     args: tag identity-api:latest thinkersteps/pre-stg-clo-identity-api:latest
+      # # 2. Push the renamed container to ACR.
+      # - name: Push built container to docker hub Container Registry for Identity
+      #   uses: actions-hub/docker/cli@master
+      #   with:
+      #     args: push thinkersteps/pre-stg-clo-identity-api
