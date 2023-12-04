@@ -1,0 +1,6 @@
+@dotnet8TestOnGithubAction_HostAddress = http://localhost:5262
+
+GET {{dotnet8TestOnGithubAction_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
